@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
+import Quotes from "@/components/Quotes";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -13,10 +14,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="h-screen flex-column justify-center items-center">
         <h1 className="text-3xl font-bold text-center mt-5">
-          Welcome to Shayan&apos;s Quotes
+          Welcome to my Quotes world!
         </h1>
+        <Quotes />
       </main>
     </>
   );
