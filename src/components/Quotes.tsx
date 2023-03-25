@@ -30,7 +30,7 @@ class Quotes extends React.Component {
     this.fetchAdvice = this.fetchAdvice.bind(this);
 
     return (
-      <div className=" bg-slate-400 flex-row w-10/12 m-auto p-20 rounded-lg md:w-1/2 mt-5">
+      <div className=" bg-slate-400 flex-row w-10/12 p-20 rounded-lg md:w-1/2 mt-5">
         <div className=" text-3xl pb-3 flex justify-start">
           <FaQuoteLeft />
         </div>
