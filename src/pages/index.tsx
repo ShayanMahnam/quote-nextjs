@@ -15,6 +15,7 @@ export default function Home() {
   const [word, setWord] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true)
   interface Quote {
     id: number;
     quote: string;
@@ -33,6 +34,7 @@ export default function Home() {
         const { id, quote, author } = response.data;
         setQuote([{ id, quote, author }]);
         setAuthor(author);
+        setIsLoading(false)
       })
       .catch((error) => {
         setErrorMessage("Sorry, there was a problem fetching the quote.");
@@ -83,7 +85,7 @@ export default function Home() {
                 fetchQuote();
                 if (inputValue) {
                   setInputValue("");
-                  setWord("")
+                  setWord("");
                 }
               }}
               buttonText="New Random Quote"
@@ -103,10 +105,60 @@ export default function Home() {
               Found Quote(s): {Array.isArray(quote) ? quote.length : 1}
             </span>
           </div>
+
           <div>
-            <Quotes
-              quotes={Array.isArray(quote) ? quote : [{ id:0, quote, author}]}
-            />
+            {isLoading ? (
+              <div className="flex font-bold justify-center items-center">
+                <svg
+                  className="w-20"
+                  version="1.1"
+                  id="L4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 100 100"
+                  enable-background="new 0 0 0 0"
+                  xmlSpace="preserve"
+                >
+                  <circle fill="#000" stroke="none" cx="6" cy="50" r="6">
+                    <animate
+                      attributeName="opacity"
+                      dur="1s"
+                      values="0;1;0"
+                      repeatCount="indefinite"
+                      begin="0.1"
+                    />
+                  </circle>
+                  <circle fill="#000" stroke="none" cx="26" cy="50" r="6">
+                    <animate
+                      attributeName="opacity"
+                      dur="1s"
+                      values="0;1;0"
+                      repeatCount="indefinite"
+                      begin="0.2"
+                    />
+                  </circle>
+                  <circle fill="#000" stroke="none" cx="46" cy="50" r="6">
+                    <animate
+                      attributeName="opacity"
+                      dur="1s"
+                      values="0;1;0"
+                      repeatCount="indefinite"
+                      begin="0.3"
+                    />
+                  </circle>
+                </svg>
+
+                <span>Data is loading</span>
+              </div>
+            ) : (
+              <Quotes
+                quotes={
+                  Array.isArray(quote) ? quote : [{ id: 0, quote, author }]
+                }
+              />
+            )}
           </div>
         </div>
         <div className="self-center justify-self-end">
