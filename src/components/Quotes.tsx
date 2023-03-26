@@ -17,13 +17,14 @@ class Quotes extends React.Component<Props> {
           <div
             key={`quote-${index}`}
             className="bg-slate-400 flex-row w-10/12 p-20 rounded-lg md:w-1/2 mt-5"
+            data-aos="fade-up"
           >
             <div className="text-3xl pb-3 flex justify-start">
               <FaQuoteLeft />
             </div>
             <div
               id="text"
-              className="px-10 text-center text-2xl md:text-3xl lg:text-4xl"
+              className="md:px-10 px-1 text-center  md:text-3xl lg:text-4xl"
             >
               <p>{quote.quote}</p>
             </div>

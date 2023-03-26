@@ -6,12 +6,15 @@ import Footer from "@/components/Footer";
 import axios from "axios";
 import React, { useState,useEffect } from "react";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [quote, setQuote] = useState<{ quote: string; author: string }[]>([]);
   const [author, setAuthor] = useState("");
   const [word, setWord] = useState("");
+
+
 
   useEffect(() => {
     fetchAdvice();
@@ -60,21 +63,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen flex-col justify-start items-center gap-20 scroll-smooth">
+      <main className="flex h-screen flex-col justify-between items-center gap-20 scroll-smooth">
         <h1 className="text-3xl font-bold text-center mt-5">
           Welcome to my Quotes world!
         </h1>
-        <div className="flex gap-6 w-full justify-center">
+        <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center flex-nowrap">
           <Button onClick={fetchAdvice} buttonText="New Random Quote" />
           <input
-            className="w-4/12 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="md:w-4/12  p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             type="text"
             placeholder="Search by word"
             onChange={(e) => setWord(e.target.value)}
           />
           <Button onClick={() => fetchAdviceByWord(word)} buttonText="" />
         </div>
-        <Quotes quotes={Array.isArray(quote) ? quote : [{ quote, author }]} />
+        <div className="flex justify-center flex-col items-center">
+          <Quotes quotes={Array.isArray(quote) ? quote : [{ quote, author }]} />
+        </div>
         <Footer />
       </main>
     </>

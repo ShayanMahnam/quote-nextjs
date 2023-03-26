@@ -2,17 +2,19 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <h4 className="font-medium">
-      created by{" "}
-      <a
-        className="hover:underline"
-        href="https://shayanmahnam.netlify.app/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Shayan
-      </a>
-    </h4>
+    <footer className="font-medium flex justify-center w-full">
+      <h4>
+        created by{" "}
+        <a
+          className="hover:underline"
+          href="https://shayanmahnam.netlify.app/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Shayan
+        </a>
+      </h4>
+    </footer>
   );
 };
 
