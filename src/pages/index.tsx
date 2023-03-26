@@ -27,6 +27,30 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const fetchAllQuotes = () => {
+    axios
+      .get<{ id: number; quote: string; author: string }[]>(
+        `https://shayanmahnam-quote-server.glitch.me/quotes`
+      )
+      .then((response) => {
+        console.log(response)
+        const quotes = response.data.map((q) => ({
+          id: q.id,
+          quote: q.quote,
+          author: q.author,
+        }));
+        setQuote(
+          quotes.length > 0
+            ? quotes
+            : [{ id: 0, quote: "No quotes found", author: "Shayan Mahnam" }]
+        );
+      })
+      .catch((error) => {
+        setErrorMessage("Sorry, there was a problem fetching the quote(s).");
+        console.log(error);
+      });
+  };
+
   const fetchQuote = () => {
     axios
       .get("https://shayanmahnam-quote-server.glitch.me/quotes/random")
@@ -80,6 +104,13 @@ export default function Home() {
         {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         <div className="w-full">
           <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center flex-nowrap">
+            <Button buttonText="All Quotes" onClick={()=>{
+              fetchAllQuotes();
+              if (inputValue) {
+                setInputValue("");
+                setWord("");
+              }
+            }}/>
             <Button
               onClick={() => {
                 fetchQuote();
@@ -118,7 +149,7 @@ export default function Home() {
                   x="0px"
                   y="0px"
                   viewBox="0 0 100 100"
-                  enable-background="new 0 0 0 0"
+                  enableBackground="new 0 0 0 0"
                   xmlSpace="preserve"
                 >
                   <circle fill="#000" stroke="none" cx="6" cy="50" r="6">
@@ -155,7 +186,7 @@ export default function Home() {
             ) : (
               <Quotes
                 quotes={
-                  Array.isArray(quote) ? quote : [{ id: 0, quote, author }]
+                  Array.isArray(quote) ? quote : [{ id: 200, quote, author }]
                 }
               />
             )}
