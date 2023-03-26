@@ -3,16 +3,16 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
 
 interface Props {
-  quotes: Array<{ quote: string; author: string }>;
+  quotes: Array<{ quote: string; author: string; id: number}>;
 }
 
 const Quotes: React.FC<Props> = ({ quotes }) => {
   return (
     <>
-      {quotes.map((quote, index) => (
+      {quotes.map((quote) => (
         <div
-          key={`quote-${index}`}
-          className="bg-slate-400 w-11/12 md:w-2/3 mx-auto my-4 rounded-lg px-6 py-8 text-center flex flex-col"
+          key={`quote-${quote.id}`}
+          className="bg-slate-400 w-11/12 md:w-2/3 mx-auto my-4 rounded-lg px-6 py-8 text-center flex flex-col justify-between md:h-auto lg:h-96"
           data-aos="fade-up"
         >
           <div className="flex flex-col mb-4">

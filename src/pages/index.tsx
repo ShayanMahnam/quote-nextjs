@@ -8,12 +8,18 @@ import React, { useState, useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 export default function Home() {
-  const [quote, setQuote] = useState<{ quote: string; author: string }[]>([]);
+  const [quote, setQuote] = useState<Quote[]>([]);
   const [author, setAuthor] = useState("");
   const [word, setWord] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  interface Quote {
+    id: number;
+    quote: string;
+    author: string;
+  }
 
   useEffect(() => {
     fetchQuote();
@@ -21,39 +27,38 @@ export default function Home() {
   }, []);
 
   const fetchQuote = () => {
-    
     axios
       .get("https://shayanmahnam-quote-server.glitch.me/quotes/random")
       .then((response) => {
-        const { quote, author } = response.data;
-        setQuote(quote);
+        const { id, quote, author } = response.data;
+        setQuote([{ id, quote, author }]);
         setAuthor(author);
       })
       .catch((error) => {
-         setErrorMessage("Sorry, there was a problem fetching the quote.");
+        setErrorMessage("Sorry, there was a problem fetching the quote.");
         console.log(error);
       });
   };
 
   const fetchQuoteByWord = (word: string) => {
     axios
-      .get<{ quote: string; author: string }[]>(
+      .get<{ id: number; quote: string; author: string }[]>(
         `https://shayanmahnam-quote-server.glitch.me/quotes/search?word=${word}`
       )
       .then((response) => {
-        const quotes = response.data;
-        if (quotes.length > 0 && inputValue.length > 0) {
-          const quotesList = quotes.map((q) => ({
-            quote: q.quote,
-            author: q.author,
-          }));
-          setQuote(quotesList);
-        } else {
-          setQuote([{ quote: "No quotes found", author: "" }]);
-        }
+        const quotes = response.data.map((q) => ({
+          id: q.id,
+          quote: q.quote,
+          author: q.author,
+        }));
+        setQuote(
+          quotes.length > 0 && inputValue.length > 0
+            ? quotes
+            : [{ id: 0, quote: "No quotes found", author: "Shayan Mahnam" }]
+        );
       })
       .catch((error) => {
-         setErrorMessage("Sorry, there was a problem fetching the quote(s).");
+        setErrorMessage("Sorry, there was a problem fetching the quote(s).");
         console.log(error);
       });
   };
@@ -78,6 +83,7 @@ export default function Home() {
                 fetchQuote();
                 if (inputValue) {
                   setInputValue("");
+                  setWord("")
                 }
               }}
               buttonText="New Random Quote"
@@ -99,7 +105,7 @@ export default function Home() {
           </div>
           <div>
             <Quotes
-              quotes={Array.isArray(quote) ? quote : [{ quote, author }]}
+              quotes={Array.isArray(quote) ? quote : [{ id:0, quote, author}]}
             />
           </div>
         </div>
