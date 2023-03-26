@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
@@ -7,41 +6,25 @@ interface Props {
   quotes: Array<{ quote: string; author: string }>;
 }
 
-class Quotes extends React.Component<Props> {
-  render() {
-    const { quotes } = this.props;
-
-    return (
-      <>
-        {quotes.map((quote, index) => (
-          <div
-            key={`quote-${index}`}
-            className="bg-slate-400 flex-row w-10/12 p-20 rounded-lg md:w-1/2 mt-5"
-            data-aos="fade-up"
-          >
-            <div className="text-3xl pb-3 flex justify-start">
-              <FaQuoteLeft />
-            </div>
-            <div
-              id="text"
-              className="md:px-10 px-1 text-center  md:text-3xl lg:text-4xl"
-            >
-              <p>{quote.quote}</p>
-            </div>
-            <div className="text-3xl pt-3 flex justify-end">
-              <FaQuoteRight />
-            </div>
-            <div
-              id="author"
-              className="flex justify-end py-5 text-lg md:text-xl "
-            >
-              <p className="font-medium">{quote.author}</p>
-            </div>
+const Quotes: React.FC<Props> = ({ quotes }) => {
+  return (
+    <>
+      {quotes.map((quote, index) => (
+        <div
+          key={`quote-${index}`}
+          className="bg-slate-400 w-11/12 md:w-2/3 mx-auto my-4 rounded-lg px-6 py-8 text-center flex flex-col"
+          data-aos="fade-up"
+        >
+          <div className="flex flex-col mb-4">
+            <FaQuoteLeft className="text-4xl text-gray-800" />
+            <p className="mx-4 text-lg md:text-2xl lg:text-3xl font-medium text-gray-800">{quote.quote}</p>
+            <FaQuoteRight className="text-4xl text-gray-800 self-end" />
           </div>
-        ))}
-      </>
-    );
-  }
-}
+          <p className="text-gray-700 self-end font-medium text-lg md:text-xl">{quote.author}</p>
+        </div>
+      ))}
+    </>
+  );
+};
 
 export default Quotes;

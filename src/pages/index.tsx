@@ -4,8 +4,7 @@ import Quotes from "@/components/Quotes";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import axios from "axios";
-import React, { useState,useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,14 +12,16 @@ export default function Home() {
   const [quote, setQuote] = useState<{ quote: string; author: string }[]>([]);
   const [author, setAuthor] = useState("");
   const [word, setWord] = useState("");
-
-
+  const [inputValue, setInputValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    fetchAdvice();
+    fetchQuote();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchAdvice = () => {
+  const fetchQuote = () => {
+    
     axios
       .get("https://shayanmahnam-quote-server.glitch.me/quotes/random")
       .then((response) => {
@@ -29,18 +30,19 @@ export default function Home() {
         setAuthor(author);
       })
       .catch((error) => {
+         setErrorMessage("Sorry, there was a problem fetching the quote.");
         console.log(error);
       });
   };
 
-  const fetchAdviceByWord = (word: string) => {
+  const fetchQuoteByWord = (word: string) => {
     axios
       .get<{ quote: string; author: string }[]>(
         `https://shayanmahnam-quote-server.glitch.me/quotes/search?word=${word}`
       )
       .then((response) => {
         const quotes = response.data;
-        if (quotes.length > 0) {
+        if (quotes.length > 0 && inputValue.length > 0) {
           const quotesList = quotes.map((q) => ({
             quote: q.quote,
             author: q.author,
@@ -51,6 +53,7 @@ export default function Home() {
         }
       })
       .catch((error) => {
+         setErrorMessage("Sorry, there was a problem fetching the quote(s).");
         console.log(error);
       });
   };
@@ -63,24 +66,46 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen flex-col justify-between items-center gap-20 scroll-smooth">
+      <main className="flex h-screen flex-col justify-start items-center gap-20 scroll-smooth">
         <h1 className="text-3xl font-bold text-center mt-5">
           Welcome to my Quotes world!
         </h1>
-        <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center flex-nowrap">
-          <Button onClick={fetchAdvice} buttonText="New Random Quote" />
-          <input
-            className="md:w-4/12  p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            placeholder="Search by word"
-            onChange={(e) => setWord(e.target.value)}
-          />
-          <Button onClick={() => fetchAdviceByWord(word)} buttonText="" />
+        {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+        <div className="w-full">
+          <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center flex-nowrap">
+            <Button
+              onClick={() => {
+                fetchQuote();
+                if (inputValue) {
+                  setInputValue("");
+                }
+              }}
+              buttonText="New Random Quote"
+            />
+            <input
+              className="md:w-4/12  p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+              placeholder="Search by word"
+              onChange={(e) => {
+                setWord(e.target.value);
+                setInputValue(e.target.value);
+              }}
+              value={inputValue}
+            />
+            <Button onClick={() => fetchQuoteByWord(word)} buttonText="" />
+            <span>
+              Found Quote(s): {Array.isArray(quote) ? quote.length : 1}
+            </span>
+          </div>
+          <div>
+            <Quotes
+              quotes={Array.isArray(quote) ? quote : [{ quote, author }]}
+            />
+          </div>
         </div>
-        <div className="flex justify-center flex-col items-center">
-          <Quotes quotes={Array.isArray(quote) ? quote : [{ quote, author }]} />
+        <div className="self-center justify-self-end">
+          <Footer />
         </div>
-        <Footer />
       </main>
     </>
   );

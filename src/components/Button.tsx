@@ -12,7 +12,7 @@ class Button extends React.Component<Props> {
     return (
       <button
         id="new-quote"
-        className="text-xl text-white bg-orange-400 p-2 rounded-lg font-semibold lg:bg-red-700 hover:bg-red-900 flex items-center"
+        className="text-xl text-white bg-orange-400 hover:bg-orange-600 p-2 rounded-lg font-semibold lg:bg-red-700 lg:hover:bg-red-900 flex items-center"
         onClick={this.props.onClick}
       >
         {buttonText === "" ? (
