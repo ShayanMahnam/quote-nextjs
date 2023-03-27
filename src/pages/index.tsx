@@ -181,7 +181,7 @@ export default function Home() {
                   </circle>
                 </svg>
 
-                <span>Data is loading</span>
+                <span>Data is loading, Please wait!</span>
               </div>
             ) : (
               <Quotes
