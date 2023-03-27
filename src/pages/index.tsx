@@ -8,19 +8,19 @@ import React, { useState, useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 export default function Home() {
-  const [quote, setQuote] = useState<Quote[]>([]);
-  const [author, setAuthor] = useState("");
-  const [word, setWord] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
   interface Quote {
     id: number;
     quote: string;
     author: string;
   }
+
+  const [quote, setQuote] = useState<Quote[]>([]);
+  const [author, setAuthor] = useState("");
+  const [word, setWord] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchQuote();
@@ -33,7 +33,7 @@ export default function Home() {
         `https://shayanmahnam-quote-server.glitch.me/quotes`
       )
       .then((response) => {
-        console.log(response)
+        console.log(response);
         const quotes = response.data.map((q) => ({
           id: q.id,
           quote: q.quote,
@@ -42,7 +42,7 @@ export default function Home() {
         setQuote(
           quotes.length > 0
             ? quotes
-            : [{ id: 0, quote: "No quotes found", author: "Shayan Mahnam" }]
+            : [{ id: 200, quote: "No quotes found", author: "Shayan Mahnam" }]
         );
       })
       .catch((error) => {
@@ -58,7 +58,7 @@ export default function Home() {
         const { id, quote, author } = response.data;
         setQuote([{ id, quote, author }]);
         setAuthor(author);
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((error) => {
         setErrorMessage("Sorry, there was a problem fetching the quote.");
@@ -80,7 +80,7 @@ export default function Home() {
         setQuote(
           quotes.length > 0 && inputValue.length > 0
             ? quotes
-            : [{ id: 0, quote: "No quotes found", author: "Shayan Mahnam" }]
+            : [{ id: 200, quote: "No quotes found", author: "Shayan Mahnam" }]
         );
       })
       .catch((error) => {
@@ -104,13 +104,16 @@ export default function Home() {
         {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         <div className="w-full">
           <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center flex-nowrap">
-            <Button buttonText="All Quotes" onClick={()=>{
-              fetchAllQuotes();
-              if (inputValue) {
-                setInputValue("");
-                setWord("");
-              }
-            }}/>
+            <Button
+              buttonText="All Quotes"
+              onClick={() => {
+                fetchAllQuotes();
+                if (inputValue) {
+                  setInputValue("");
+                  setWord("");
+                }
+              }}
+            />
             <Button
               onClick={() => {
                 fetchQuote();
