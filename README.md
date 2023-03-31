@@ -3,7 +3,7 @@
 A simple React application built with Next.js that displays random quotes fetched from the API I create.
 
 ## Demo
-**Live demo:** https://shayan-quotes.vercel.app/
+**Live demo:** https://quote-nextjs.vercel.app/
 
 - - - -
 
