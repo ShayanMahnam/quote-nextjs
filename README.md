@@ -13,12 +13,14 @@ A simple React application built with Next.js that displays random quotes fetche
 - Fetch all quotes by clicking "All Quotes"
 - Responsive design
 - Loading spinner
+- used animation on scroll (AOS)
 
 - - - -
 
 ## Technologies
 - React
 - Next.js
+- TypeScript
 - axios
 - Tailwind CSS
 
